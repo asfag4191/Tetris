@@ -23,5 +23,28 @@ public void prettyStringTest() {
   });
   assertEquals(expected, board.prettyString());
 }
-}
 
+@Test
+public void testRemoveFullRows() {
+  TetrisBoard board = getTetrisBoardWithContents(new String[] {
+    "-T",
+    "TT",
+    "LT",
+    "L-",
+    "LL"
+  });
+  assertEquals(3, board.removeFullRows());
+  String expected = String.join("\n", new String[] {
+    "--",
+    "--",
+    "--",
+    "-T",
+    "L-"
+  });
+  assertEquals(expected, board.prettyString());
+}
+//@Test
+//public void testBottomRowRemains();
+
+
+}

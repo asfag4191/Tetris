@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import no.uib.inf101.grid.CellPosition;
 import no.uib.inf101.grid.GridCell;
 import no.uib.inf101.grid.GridDimension;
+import no.uib.inf101.tetris.model.TetrisBoard;
 
 public class TestTetromino {
     @Test
@@ -78,9 +79,9 @@ public void tetrominoDoubleMovement() {
 }
 
 @Test
-public void tetrominoShiftedToTopCenterOf() {
-    Tetromino tetro = Tetromino.newTetromino('I');
-    GridDimension grid = new GridDimension(10, 10);
+public void tetrominoShiftedToTopCenterOfO() {
+    Tetromino tetro = Tetromino.newTetromino('O');
+    GridDimension grid = new TetrisBoard(20, 10);
     tetro = tetro.shiftedToTopCenterOf(grid);  // Use shiftedToTopCenterOf(GridDimension gridDimension)
 
     // Collect which objects are iterated through
@@ -91,10 +92,30 @@ public void tetrominoShiftedToTopCenterOf() {
 
     // Check that we got the expected GridCell objects
     assertEquals(4, objs.size());
-    assertTrue(objs.contains(new GridCell<>(new CellPosition(11, 100), 'I')));
-    assertTrue(objs.contains(new GridCell<>(new CellPosition(11, 101), 'I')));
-    assertTrue(objs.contains(new GridCell<>(new CellPosition(11, 102), 'I')));
-    assertTrue(objs.contains(new GridCell<>(new CellPosition(12, 101), 'I')));
+    assertTrue(objs.contains(new GridCell<>(new CellPosition(0, 4), 'O')));
+    assertTrue(objs.contains(new GridCell<>(new CellPosition(0, 5), 'O')));
+    assertTrue(objs.contains(new GridCell<>(new CellPosition(1, 4), 'O')));
+    assertTrue(objs.contains(new GridCell<>(new CellPosition(1, 5), 'O')));
+}
+
+@Test
+public void tetrominoShiftedToTopCenterOfS() {
+    Tetromino tetro = Tetromino.newTetromino('S');
+    GridDimension grid = new TetrisBoard(20, 10);
+    tetro = tetro.shiftedToTopCenterOf(grid);  // Use shiftedToTopCenterOf(GridDimension gridDimension)
+
+    // Collect which objects are iterated through
+    List<GridCell<Character>> objs = new ArrayList<>();
+    for (GridCell<Character> gc : tetro) {
+        objs.add(gc);
+    }
+
+    // Check that we got the expected GridCell objects
+    assertEquals(4, objs.size());
+    assertTrue(objs.contains(new GridCell<>(new CellPosition(0,4), 'S')));
+    assertTrue(objs.contains(new GridCell<>(new CellPosition(0,5), 'S')));
+    assertTrue(objs.contains(new GridCell<>(new CellPosition(1,3), 'S')));
+    assertTrue(objs.contains(new GridCell<>(new CellPosition(1, 4), 'S')));
 }
 }
 

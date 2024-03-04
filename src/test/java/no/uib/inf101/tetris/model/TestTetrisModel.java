@@ -55,48 +55,96 @@ public void initialPositionOfI() {
 }
 
 ////egne tester
-    @Test
-    void testSuccessfulMove() {
-        TetrisBoard tetrisBoard = new TetrisBoard(20, 10);
-        TetrominoFactory tetrominoFactory = new RandomTetrominoFactory();
-        TetrisModel tetrisModel = new TetrisModel(tetrisBoard, tetrominoFactory);
+@Test
+void testMoveReturnsTrueWhenSuccessful() {
+    TetrisBoard tetrisBoard = new TetrisBoard(20, 10);
+    tetrisBoard.set(new CellPosition(0, 0), 'g');
+    TetrominoFactory tetrominoFactory = new PatternedTetrominoFactory("I");
+    TetrisModel tetrisModel = new TetrisModel(tetrisBoard, tetrominoFactory);
 
-        assertTrue(tetrisModel.moveTetromino(1, 0)); // Move down
-        assertTrue(tetrisModel.moveTetromino(0, 1)); // Move right
-    }
+    
+    assertTrue(tetrisModel.moveTetromino(0, 1), "Moves collumn to right");
+    assertTrue(tetrisModel.moveTetromino(0, -1), "Moves collumn to left");
+    assertTrue(!tetrisModel.moveTetromino(30, 0), "Moves row out of grid");
+    assertTrue(!tetrisModel.moveTetromino(0,-4), "Moves row out of grid");
+}
+
+
 
     @Test
     void testMoveChangesFallingTiles() {
         TetrisBoard tetrisBoard = new TetrisBoard(20, 10);
-        TetrominoFactory tetrominoFactory = new RandomTetrominoFactory();
+        TetrominoFactory tetrominoFactory = new PatternedTetrominoFactory("O");
         TetrisModel tetrisModel = new TetrisModel(tetrisBoard, tetrominoFactory);
+        
+        ArrayList<GridCell<Character>> cell = new ArrayList<>();
+        for(GridCell<Character> move : tetrisModel.getFallingTiles()){
+            cell.add(move);
+        }
+        assertTrue(cell.contains(new GridCell<>(new CellPosition(0, 4), 'O')));
+        assertTrue(cell.contains(new GridCell<>(new CellPosition(0, 5), 'O')));
+        assertTrue(cell.contains(new GridCell<>(new CellPosition(1, 4), 'O')));
+        assertTrue(cell.contains(new GridCell<>(new CellPosition(1, 5), 'O')));
+        
 
-        GridCell<Character> initialTetromino = tetrisModel.getFallingTiles().iterator().next();
         tetrisModel.moveTetromino(0, 1);
 
-        GridCell<Character> newTetromino = tetrisModel.getFallingTiles().iterator().next();
-        assertNotEquals(initialTetromino, newTetromino);
-    }
-hh
-    @Test
-    void testCannotMoveOutOfBoard() {
-        TetrisBoard tetrisBoard = new TetrisBoard(20, 10);
-        TetrominoFactory tetrominoFactory = new RandomTetrominoFactory();
-        TetrisModel tetrisModel = new TetrisModel(tetrisBoard, tetrominoFactory);
+        ArrayList<GridCell<Character>> cell2 = new ArrayList<>();
+        for(GridCell<Character> move : tetrisModel.getFallingTiles()){
+            cell2.add(move);
+        }
+        
+      
+        assertTrue(cell2.contains(new GridCell<>(new CellPosition(0, 5), 'O')));
+        assertTrue(cell2.contains(new GridCell<>(new CellPosition(0, 6), 'O')));
+        assertTrue(cell2.contains(new GridCell<>(new CellPosition(1, 5), 'O')));
+        assertTrue(cell2.contains(new GridCell<>(new CellPosition(1, 6), 'O')));
 
-        assertFalse(tetrisModel.moveTetromino(0, -1)); 
-    }
+      }
+      @Test
+      public void testMoveTetrominoToOccupiedSpace() {
+        TetrisBoard board = new TetrisBoard(20, 10);
+        board.set(new CellPosition(0, 7), 'X'); // Markerer posisjon (4,4) som opptatt av '
+        TetrominoFactory factory = new PatternedTetrominoFactory("I");
+        TetrisModel model = new TetrisModel(board, factory);
 
-    @Test
-    void testCannotMoveToOccupiedCell() {
-        TetrisBoard tetrisBoard = new TetrisBoard(20, 10);
-        TetrominoFactory tetrominoFactory = new RandomTetrominoFactory();
-        TetrisModel tetrisModel = new TetrisModel(tetrisBoard, tetrominoFactory);
+        ArrayList<GridCell<Character>> cell = new ArrayList<>();
+        for(GridCell<Character> move : model.getFallingTiles()){
+            cell.add(move);
+        }
 
-        // Occupy a cell on the board
-        tetrisBoard.set(new CellPosition(0, 0), 'X');
+        assertTrue(cell.contains(new GridCell<>(new CellPosition(0, 3), 'I')));
+        assertTrue(cell.contains(new GridCell<>(new CellPosition(0, 4), 'I')));
+        assertTrue(cell.contains(new GridCell<>(new CellPosition(0, 5), 'I')));
+        assertTrue(cell.contains(new GridCell<>(new CellPosition(0, 6), 'I')));
+        
 
-        assertFalse(tetrisModel.moveTetromino(0, 0)); // Try to move to an occupied cell, should return false
-    }
-}
+        model.moveTetromino(0, 1);
+
+        ArrayList<GridCell<Character>> cell2 = new ArrayList<>();
+        for(GridCell<Character> move : model.getFallingTiles()){
+            cell2.add(move);
+        }
+        
+        assertTrue(cell2.contains(new GridCell<>(new CellPosition(0, 4), 'I')));
+        assertTrue(cell2.contains(new GridCell<>(new CellPosition(0, 5), 'I')));
+        assertTrue(cell2.contains(new GridCell<>(new CellPosition(0, 6), 'I')));
+        assertFalse(cell2.contains(new GridCell<>(new CellPosition(0, 7), 'I')));
+        
+    
+            }
+          }
+    
+    //assertFalse(tetrisModel.moveTetromino(0, 0));
+
+//@Test
+//void testdropTetromino(){
+//}
+//}
+    
+
+    
+    
+
+
 

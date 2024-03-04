@@ -12,10 +12,9 @@ import no.uib.inf101.grid.GridDimension;
 public final class Tetromino implements Iterable<GridCell<Character>> {
 
     public static void main(String[] args) {
-        Tetromino t = newTetromino('I');
+        //Tetromino t = newTetromino('I');
         
     }
-
     private final char symbol;
     private final boolean[][] shape;
     private final CellPosition position;
@@ -104,6 +103,22 @@ public final class Tetromino implements Iterable<GridCell<Character>> {
         // returnerer med ny Cellposition
         return new Tetromino(symbol, shape, newPosition);
     }
+    public Tetromino rotatedTetromino(){
+        boolean [][] originalShape = shape; 
+        int rows = originalShape.length;
+        int cols = originalShape[0].length;
+
+        boolean[][] newShape = new boolean[cols][rows];
+        
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                int rotatedRow = col;
+                int rotatedCol = rows -1 - row;
+                newShape[rotatedRow][rotatedCol] = originalShape[row][col];
+            }
+        }
+        return new Tetromino(symbol, newShape, position);
+    }
 
     @Override
     public Iterator<GridCell<Character>> iterator() {
@@ -136,6 +151,8 @@ public final class Tetromino implements Iterable<GridCell<Character>> {
                 Arrays.deepEquals(shape, tetromino.shape) &&
                 Objects.equals(position, tetromino.position);
     }
+
+    
 
 
 
