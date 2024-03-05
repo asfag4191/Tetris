@@ -49,10 +49,13 @@ public class TetrisController implements KeyListener {
             tetrisModel.moveTetromino(0, 1);
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             tetrisModel.moveTetromino(1, 0);
+            timer.restart();
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
             tetrisModel.rotatedTetromino();
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             tetrisModel.dropTetromino();
+            timer.restart();
+
         }
         
         // Oppdaterer visningen

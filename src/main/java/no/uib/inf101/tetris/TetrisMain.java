@@ -20,10 +20,10 @@ public class TetrisMain {
   
   public static void main(String[] args) {
     TetrisBoard tetrisBoard = new TetrisBoard(20, 10);
-    tetrisBoard.set(new CellPosition(0, 0), 'g');
-    tetrisBoard.set(new CellPosition(0, 9), 'y');
-    tetrisBoard.set(new CellPosition(19, 0), 'r');
-    tetrisBoard.set(new CellPosition(19, 9), 'b');
+    //tetrisBoard.set(new CellPosition(0, 0), 'g');
+    //tetrisBoard.set(new CellPosition(0, 9), 'y');
+    //tetrisBoard.set(new CellPosition(19, 0), 'r');
+    //tetrisBoard.set(new CellPosition(19, 9), 'b');
 
     TetrominoFactory tetrominoFactory = new RandomTetrominoFactory();
 

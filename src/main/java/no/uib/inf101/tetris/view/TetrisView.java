@@ -40,6 +40,7 @@ public class TetrisView extends JPanel{
 
     if (tetrisModel.getGameState() == GameState.GAME_OVER) {
       drawGameOverOverlay(g2);
+      drawScore(g2);
   }
 }
 
@@ -96,6 +97,17 @@ private static void drawCells(Graphics2D g2, Iterable<GridCell<Character>> cells
 
       // Tegner teksten
       g2.drawString(text, x, y);
+  }
+
+  private void drawScore(Graphics2D g2) {
+      g2.setColor(Color.RED);
+      g2.setFont(new Font("Arial", Font.BOLD, 40));
+
+      FontMetrics fm = g2.getFontMetrics();
+      String text="Score: " + tetrisModel.getscore();
+     int x = (getWidth() - fm.stringWidth(text)) / 2;
+     int y=fm.getHeight();
+      g2.drawString(text,x,y);
   }
 }
 

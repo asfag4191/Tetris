@@ -1,34 +1,37 @@
 package no.uib.inf101.grid;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-//Grid har en genererisk typeparameter E, og implementerer IGrid
-//Grid har to feltvariabler, rows og cols, og en ArrayList av ArrayList av E
+/**
+ * A grid of cells.
+ *
+ * @param <E> The type of the value in the cells
+ */
 public class Grid<E> implements IGrid<E> {
-
-    //felt variabler
-    private int rows;
-    private int cols;
-    private ArrayList<ArrayList<E>> grid;
-    private E value;
+  private int rows;
+  private int cols;
+  private ArrayList<ArrayList<E>> grid;
+  private E value;
 
 
     /**
-     * @param rows
-     * @param cols
-     * @param value
+     * Specified number of rows and columns
+     * All grid elements are set to the provided value
+     * 
+     * @param rows The number of rows in the grid
+     * @param cols The number of cols in the grid
+     * @param value The initial value for all cells in the grid
      */
 
     public Grid(int rows, int cols, E value){
-        this.rows=rows;
-        this.cols=cols;
-        this.value=value;
-        this.grid=new ArrayList<>();
+      this.rows=rows;
+      this.cols=cols;
+      this.value=value;
+      this.grid=new ArrayList<>();
         
-        for (int i = 0; i < rows; i++) {
+         for (int i = 0; i < rows; i++) {
             ArrayList<E> rowList = new ArrayList<>();
             for (int j = 0; j < cols; j++) {
                 rowList.add(value);

@@ -26,7 +26,7 @@ public final class Tetromino implements Iterable<GridCell<Character>> {
     }
 
     //pakke privat
-    static Tetromino newTetromino (char symbol){
+    public static Tetromino newTetromino (char symbol){
         boolean[][] shape = switch (symbol) {
             case 'I' -> new boolean[][] {
                 {false, false, false, false},

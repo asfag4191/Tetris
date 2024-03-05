@@ -79,6 +79,7 @@ public class TetrisBoard extends Grid<Character> {
     
             // La a og b gå til neste rekke (oppover på brettet)
             a--;
+            
             b--;
         }
         // Returnerer antall rader som ble forkastet
@@ -86,7 +87,7 @@ public class TetrisBoard extends Grid<Character> {
     }
     
     
-    public TetrisBoard getTetrisBoardWithContents(String[] contents) {
+    public static TetrisBoard getTetrisBoardWithContents(String[] contents) {
         int rows = contents.length;
         int cols = contents[0].length();
         TetrisBoard board = new TetrisBoard(rows, cols);

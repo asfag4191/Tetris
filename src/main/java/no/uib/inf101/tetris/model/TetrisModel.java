@@ -17,6 +17,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     private TetrominoFactory tetrominoFactory;
     private Tetromino currentTetromino;
     private GameState gameState = GameState.ACTIVE_GAME;
+    private int newscore=0;
 
     public TetrisModel(TetrisBoard tetrisBoard, TetrominoFactory tetrominoFactory) {
         if (tetrisBoard == null || tetrominoFactory == null) {
@@ -46,19 +47,6 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
                 return true;
 
             }
-
-
-        //for (GridCell<Character> cell : tetromino) {
-            //if (!tetrisBoard.get(cell.pos()).equals('-')) {
-                //return false;
-            //}
-            
-            //if (!tetrisBoard.positionIsOnGrid(cell.pos())){
-                //return false;
-            //}
-        //}
-        //return true;
-   // }
     
 
 
@@ -92,7 +80,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     }
 
     @Override
-    public boolean rotatedTetromino() {
+        public boolean rotatedTetromino() {
         Tetromino newrotatedTetromino = this.currentTetromino.rotatedTetromino();
 
         // Check if the rotated tetromino is a legal move
@@ -122,6 +110,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
             tetrisBoard.set(cell.pos(), cell.value());
         }
         int rowsRemoved=tetrisBoard.removeFullRows();
+        newscore=updatedScore(rowsRemoved, newscore);
         // Her kan du implementere sjekk for fullførte linjer og fjerne dem
     }
 
@@ -156,12 +145,27 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         }
     }
 
+    public int updatedScore(int linesRemoved, int score){
+        switch (linesRemoved){
+            case 1:
+                score+= 100;
+                break;
+            case 2:
+                score+=300;
+                break;
+            case 3:
+                score+= 500;
+                break;
+            case 4:
+                score+= 800;
+                break;
     }
+    return score;
+}
+
+    @Override
+    public int getscore() {
+        return newscore;
+    }
+}
     
-
-
-
-    //public void updateGameState();
-    //int score=board.removeFullRows();
-    //}
-

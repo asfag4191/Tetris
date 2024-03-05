@@ -16,6 +16,13 @@ public interface ViewableTetrisModel{
     Iterable<GridCell<Character>> getFallingTiles();
 
     GameState getGameState();
+
+    int getscore();
+
+    boolean rotatedTetromino();
+
+
+
 }
 
 
