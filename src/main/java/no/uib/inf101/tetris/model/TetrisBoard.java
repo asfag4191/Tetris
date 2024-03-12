@@ -1,36 +1,54 @@
 package no.uib.inf101.tetris.model;
 
-
 import no.uib.inf101.grid.CellPosition;
 import no.uib.inf101.grid.Grid;
-import no.uib.inf101.grid.GridCell;
-import no.uib.inf101.tetris.model.tetromino.Tetromino;
 
+/**
+ * Representation of the tetris game board. It support standard operations for
+ * manupulating
+ * the board state, including setting rows, copying rows and removing full rows.
+ */
 public class TetrisBoard extends Grid<Character> {
 
-    //private ArrayList<ArrayList<Character>> grid;
-    //private int cols;
-
+    /**
+     * Constructs a new TetrisBoard with the given number of rows and columns.
+     * The board is filled with the character '-', representing an empty
+     * cell.
+     * 
+     * @param rows The number of rows in the board
+     * @param cols The number of columns in the board
+     */
 
     public TetrisBoard(int rows, int cols) {
         super(rows, cols, '-');
- 
     }
+
+    /**
+     * Generates a string representation of the board.
+     * Each row is separated by its character, each line is on a new row.
+     * 
+     * @return a string representation of the board
+     */
 
     public String prettyString() {
         StringBuilder result = new StringBuilder();
-    
+
         for (int row = 0; row < rows(); row++) {
             for (int col = 0; col < cols(); col++) {
                 result.append(get(new CellPosition(row, col)));
             }
             result.append("\n");
         }
-    
         return result.toString().trim();
     }
 
-    // Metode som sjekker om et element eksisterer i en rad på brettet
+    /**
+     * Chech if a specific element exist in a row.
+     *
+     * @param row     The row to check.
+     * @param element The element to check for.
+     * @return True if the elements exists in the row, false otherwise.
+     */
     public boolean rowContains(int row, char element) {
         for (int col = 0; col < cols(); col++) {
             if (get(new CellPosition(row, col)) == element) {
@@ -39,54 +57,66 @@ public class TetrisBoard extends Grid<Character> {
         }
         return false;
     }
-    
-    // Metode som setter alle rutene i en rad til en gitt verdi
+
+    /**
+     * Set all the cells in a row to a specific value.
+     * 
+     * @param row   The row to set.
+     * @param value The value to set the row to.
+     */
     public void setRow(int row, char value) {
         for (int col = 0; col < cols(); col++) {
             set(new CellPosition(row, col), value);
         }
     }
-    
+
+    /**
+     * Copy the contents of one row into another row.
+     * 
+     * @param sourceRow      The row to copy from.
+     * @param destinationRow The row to copy to.
+     */
     public void copyRowInto(int sourceRow, int destinationRow) {
         for (int col = 0; col < cols(); col++) {
             set(new CellPosition(destinationRow, col), get(new CellPosition(sourceRow, col)));
         }
     }
-    // Metode som kopierer alle verdiene fra én rad inn i en annen
+
+    /**
+     * Remove all full rows from the board.
+     * A row is considered full if there are no ('-'), empty cells in the row.
+     * 
+     * @return The number of rows removed.
+     */
     public int removeFullRows() {
-        int removedRowsCount = 0; // Tellevariabel for antall rader som blir forkastet
-        int a = rows() - 1; // a starter ved nederste rad på brettet
-        int b = rows() - 1; // b starter også ved nederste rad på brettet
-    
-        // Så lenge a er en rad på brettet
+        int removedRowsCount = 0;
+        int a = rows() - 1;
+        int b = rows() - 1;
+
         while (a >= 0) {
-            // Så lenge b er en rad på brettet og raden b ikke inneholder en blank rute
             while (b >= 0 && !rowContains(b, '-')) {
-                // Teller opp at denne rekken ble forkastet
                 removedRowsCount++;
-                // La b gå til neste rad
                 b--;
             }
-    
-            // Hvis b fremdeles er på brettet
-            if (b >= 0 && b<rows()) {
-                // Kopier rekken b står ved inn i rekken a står ved
+            if (b >= 0 && b < rows()) {
                 copyRowInto(b, a);
             } else {
-                // Fyll rekken a står ved med blanke ruter
                 setRow(a, '-');
             }
-    
-            // La a og b gå til neste rekke (oppover på brettet)
             a--;
-            
             b--;
         }
-        // Returnerer antall rader som ble forkastet
         return removedRowsCount;
     }
-    
-    
+
+    /**
+     * Create a new TetrisBoard with the given contents, defined by an array of
+     * strings.
+     * Each string in the array represents a row in the board.
+     * 
+     * @param contents An array of strings representing the board contents.
+     * @return A new TetrisBoard with the given contents.
+     */
     public static TetrisBoard getTetrisBoardWithContents(String[] contents) {
         int rows = contents.length;
         int cols = contents[0].length();
@@ -98,6 +128,5 @@ public class TetrisBoard extends Grid<Character> {
         }
         return board;
     }
-}
-    
 
+}

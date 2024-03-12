@@ -15,15 +15,11 @@ import no.uib.inf101.tetris.view.ViewableTetrisModel;
 public class TetrisMain {
   public static final String WINDOW_TITLE = "INF101 Tetris";
 
-  //private static ViewableTetrisModel tetrisModel;
-//private static TetrisBoard tetrisBoard;
+
   
   public static void main(String[] args) {
     TetrisBoard tetrisBoard = new TetrisBoard(20, 10);
-    //tetrisBoard.set(new CellPosition(0, 0), 'g');
-    //tetrisBoard.set(new CellPosition(0, 9), 'y');
-    //tetrisBoard.set(new CellPosition(19, 0), 'r');
-    //tetrisBoard.set(new CellPosition(19, 9), 'b');
+ 
 
     TetrominoFactory tetrominoFactory = new RandomTetrominoFactory();
 

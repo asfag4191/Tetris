@@ -10,42 +10,45 @@ import java.util.List;
  * @param <E> The type of the value in the cells
  */
 public class Grid<E> implements IGrid<E> {
-  private int rows;
-  private int cols;
-  private ArrayList<ArrayList<E>> grid;
-  private E value;
-
+    private int rows;
+    private int cols;
+    private ArrayList<ArrayList<E>> grid;
+    private E value;
 
     /**
      * Specified number of rows and columns
      * All grid elements are set to the provided value
      * 
-     * @param rows The number of rows in the grid
-     * @param cols The number of cols in the grid
+     * @param rows  The number of rows in the grid
+     * @param cols  The number of cols in the grid
      * @param value The initial value for all cells in the grid
      */
+    public Grid(int rows, int cols, E value) {
+        this.rows = rows;
+        this.cols = cols;
+        this.value = value;
+        this.grid = new ArrayList<>();
 
-    public Grid(int rows, int cols, E value){
-      this.rows=rows;
-      this.cols=cols;
-      this.value=value;
-      this.grid=new ArrayList<>();
-        
-         for (int i = 0; i < rows; i++) {
+        for (int i = 0; i < rows; i++) {
             ArrayList<E> rowList = new ArrayList<>();
             for (int j = 0; j < cols; j++) {
                 rowList.add(value);
             }
             grid.add(rowList);
+        }
     }
-}
 
-
-    public Grid(int rows, int cols) { 
+    /**
+     * Specified number of rows and columns
+     * All grid elements are set to null
+     * 
+     * @param rows The number of rows in the grid
+     * @param cols The number of cols in the grid
+     */
+    public Grid(int rows, int cols) {
         this(rows, cols, null);
     }
 
-    //Metoder som implementerer IGrid interfacet
     @Override
     public void set(CellPosition pos, E value) {
         int row = pos.row();
@@ -64,7 +67,7 @@ public class Grid<E> implements IGrid<E> {
     public boolean positionIsOnGrid(CellPosition pos) {
         return pos.row() >= 0 && pos.row() < rows && pos.col() >= 0 && pos.col() < cols;
     }
-    
+
     @Override
     public int rows() {
         return this.rows;
@@ -78,20 +81,15 @@ public class Grid<E> implements IGrid<E> {
     @Override
     public Iterator<GridCell<E>> iterator() {
         List<GridCell<E>> cellList = new ArrayList<>();
-        for (int i = 0; i < grid.size(); i++) {
-            for (int j = 0; j < grid.get(0).size(); j++) {
-                CellPosition pos = new CellPosition(i, j);
-                E value = grid.get(i).get(j);
+        for (int rows = 0; rows < grid.size(); rows++) {
+            for (int cols = 0; cols < grid.get(0).size(); cols++) {
+                CellPosition pos = new CellPosition(rows, cols);
+                E value = grid.get(rows).get(cols);
                 GridCell<E> gridCell = new GridCell<>(pos, value);
                 cellList.add(gridCell);
-  }
+            }
+        }
+        return cellList.iterator();
+
+    }
 }
-return cellList.iterator();
-
-}
-}
-
-
-    
-
-

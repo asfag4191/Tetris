@@ -69,6 +69,9 @@ public void tetrominoIterationOfS() {
   assertTrue(objs.contains(new GridCell<>(new CellPosition(12, 101), 'S')));
   assertTrue(objs.contains(new GridCell<>(new CellPosition(12, 100), 'S')));
 }
+
+
+//FÅ gjort
 @Test
 public void tetrominoDoubleMovement() {
 
@@ -76,7 +79,34 @@ public void tetrominoDoubleMovement() {
   Tetromino movedOnce = iTetro.shiftedBy(1, 0);
   Tetromino movedTwice = iTetro.shiftedBy(2, 0);
   assertEquals(movedTwice, movedOnce.shiftedBy(1, 0));
+
+
+
 }
+
+@Test
+
+public void tetrominoDoubleMovement2(){
+  Tetromino iTetro=Tetromino.newTetromino('I');
+  GridDimension grid=new TetrisBoard(20, 10);
+  iTetro=iTetro.shiftedBy(0, 1);
+  
+  
+  Tetromino movedOnce = iTetro.shiftedBy(1, 0);
+
+  List<GridCell<Character>> objs = new ArrayList<>();
+  for (GridCell<Character> gc : movedOnce) {
+    objs.add(gc);
+  }
+
+  //assertEquals(4,objs.size());
+  assertTrue(objs.contains(new GridCell<>(new CellPosition(0, 7), 'I')));
+
+
+  Tetromino movedTwice = iTetro.shiftedBy(2, 0);
+  assertTrue(movedTwice.equals(movedOnce.shiftedBy(1, 0)));
+
+} 
 
 @Test
 public void tetrominoShiftedToTopCenterOfO() {
