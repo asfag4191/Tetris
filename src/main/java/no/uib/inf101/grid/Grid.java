@@ -13,7 +13,6 @@ public class Grid<E> implements IGrid<E> {
     private int rows;
     private int cols;
     private ArrayList<ArrayList<E>> grid;
-    private E value;
 
     /**
      * Specified number of rows and columns
@@ -26,12 +25,11 @@ public class Grid<E> implements IGrid<E> {
     public Grid(int rows, int cols, E value) {
         this.rows = rows;
         this.cols = cols;
-        this.value = value;
         this.grid = new ArrayList<>();
 
-        for (int i = 0; i < rows; i++) {
+        for (int row = 0; row < rows; row++) {
             ArrayList<E> rowList = new ArrayList<>();
-            for (int j = 0; j < cols; j++) {
+            for (int col = 0; col < cols; col++) {
                 rowList.add(value);
             }
             grid.add(rowList);

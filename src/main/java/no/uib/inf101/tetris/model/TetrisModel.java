@@ -13,13 +13,14 @@ import no.uib.inf101.tetris.view.ViewableTetrisModel;
 
 /**
  * The TetrisModel class is responsible for managing the game state and the
- * tetrominos. It is also responsible for checking if the tetrominos can move
- * and rotate, and for attaching them to the board when they can't move anymore.
+ * tetrominos. Responsible for movement, rotation, and placement of the
+ * tetrominos on the board, and attaching them to the board when they can't move
+ * anymore.
  * 
  * The class implements the ViewableTetrisModel and ControllableTetrisModel,
  * which means that it can be used as a model in the MVC pattern.
  * 
- * The class also has a method called "clockTick" which is called by the
+ * The method called "clockTick" which is called by the
  * controller at regular intervals. This method is responsible for moving the
  * tetrominos down, and for attaching them to the board when they can't move
  * anymore.
@@ -33,10 +34,12 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     private int newscore = 0;
 
     /**
+     * Initializes a new TetrisModel with the given game board and tetromino
+     * factory.
+     * Checks if the given game board and tetromino factory are null.
      * 
-     * 
-     * @param tetrisBoard
-     * @param tetrominoFactory
+     * @param tetrisBoard      The game board.
+     * @param tetrominoFactory The factory for generating tetrominos.
      */
     public TetrisModel(TetrisBoard tetrisBoard, TetrominoFactory tetrominoFactory) {
         if (tetrisBoard == null || tetrominoFactory == null) {
@@ -47,13 +50,15 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         this.tetrominoFactory = tetrominoFactory;
         this.currentTetromino = this.tetrominoFactory.getNext().shiftedToTopCenterOf(tetrisBoard);
         this.gameState = GameState.ACTIVE_GAME;
-        this.gameState=GameState.WELCOME_SCREEN;
+        this.gameState = GameState.WELCOME_SCREEN;
     }
 
     /**
+     * Determine if the specified tetromino can be legally moved to the new
+     * position.
      * 
-     * @param tetromino
-     * @return
+     * @param tetromino The tetromino to check.
+     * @return True if the move is legal, false otherwise.
      */
     private boolean legalMove(Tetromino tetromino) {
         List<GridCell<Character>> cells = new ArrayList<>();
@@ -61,8 +66,8 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
             cells.add(cell);
         }
 
-        for (int i = 0; i < cells.size(); i++) {
-            CellPosition pos = cells.get(i).pos();
+        for (int row = 0; row < cells.size(); row++) {
+            CellPosition pos = cells.get(row).pos();
             if (!tetrisBoard.positionIsOnGrid(pos)) {
                 return false;
             } else if (tetrisBoard.get(pos) != '-') {
@@ -83,15 +88,11 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         return true;
     }
 
-    // gir tilgang til dimensjonene av "tetrisBoard" ved å kalle "getDimension"
-    // metoden
     @Override
     public GridDimension getDimension() {
         return this.tetrisBoard;
     }
 
-    // gir tilgang til alle "tiles" på "tetrisBoard" ved å kalle "getTilesOnBoard"
-    // metoden
     @Override
     public Iterable<GridCell<Character>> getTilesOnBoard() {
         return this.tetrisBoard;
@@ -105,38 +106,46 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     @Override
     public boolean rotatedTetromino() {
         Tetromino newrotatedTetromino = this.currentTetromino.rotatedTetromino();
-
-        // Check if the rotated tetromino is a legal move
         if (!legalMove(newrotatedTetromino)) {
             return false;
         }
         this.currentTetromino = newrotatedTetromino;
-        return true; // Rotation was successful
+        return true;
     }
 
-    // public void newFallingTetromino(){
-    // this.currentTetromino =
-    // this.tetrominoFactory.getNext().shiftedToTopCenterOf(tetrisBoard);
-    // }
-
+    
     @Override
     public void dropTetromino() {
         while (moveTetromino(1, 0)) {
-            // Beveger tetrominoen nedover til den ikke kan flyttes lenger
         }
-        attachTetrominoToBoard(); // Fester tetrominoen til brettet
-        fetchNewFallingTetromino(); // Henter en ny tetromino
+        attachTetrominoToBoard();
+        fetchNewFallingTetromino();
     }
 
+    /**
+     * Attach the current tetromino to the board, it's called when it can't
+     * be moved down anymore.
+     * 
+     * Iterates through the cells of the tetromino and sets the value of the
+     * corresponding cell on the board to the value of the tetromino cell.
+     * 
+     * After attaching, it removes any full rows and updates the score.
+     * Helping method to dropTetromino.
+     */
     private void attachTetrominoToBoard() {
         for (GridCell<Character> cell : currentTetromino) {
             tetrisBoard.set(cell.pos(), cell.value());
         }
         int rowsRemoved = tetrisBoard.removeFullRows();
         newscore = updatedScore(rowsRemoved, newscore);
-        // Her kan du implementere sjekk for fullførte linjer og fjerne dem
     }
 
+    /**
+     * Fetches a new falling tetromino from the tetromino factory and sets it as
+     * the current tetromino. If the new tetromino can't be placed on the board,
+     * the game state is set to GAME_OVER.
+     * Helping method to dropTetromino.
+     */
     private void fetchNewFallingTetromino() {
         Tetromino newTetromino = tetrominoFactory.getNext().shiftedToTopCenterOf(tetrisBoard);
         this.currentTetromino = newTetromino;
@@ -162,18 +171,19 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     public void clockTick() {
         boolean moved = moveTetromino(1, 0);
         if (!moved) {
-            // Hvis brikken ikke fikk lov til å flytte seg, fest den til brettet
             attachTetrominoToBoard();
             fetchNewFallingTetromino();
         }
     }
 
     /**
-     * @param linesRemoved
-     * @param score
-     * @return
+     * Updates the score based on the number of lines removed.
+     * 
+     * @param linesRemoved The number of lines removed.
+     * @param score        The current score.
+     * @return The updated score.
      */
-    public int updatedScore(int linesRemoved, int score) {
+    private int updatedScore(int linesRemoved, int score) {
         switch (linesRemoved) {
             case 1:
                 score += 100;
@@ -192,36 +202,32 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     }
 
     @Override
-    public void startGame(){
-        newscore=0;
+    public void startGame() {
+        newscore = 0;
         currentTetromino = this.tetrominoFactory.getNext().shiftedToTopCenterOf(tetrisBoard);
         gameState = GameState.ACTIVE_GAME;
-        for(int row=0;row<tetrisBoard.rows();row++){
-            tetrisBoard.setRow(row,'-');
-        }}
-        
+        for (int row = 0; row < tetrisBoard.rows(); row++) {
+            tetrisBoard.setRow(row, '-');
+        }
+    }
 
-    public void welcomeScreen(){
+    /**
+     * Sets the Game State to WELCOME_SCREEN
+     */
+    public void welcomeScreen() {
         gameState = GameState.WELCOME_SCREEN;
     }
 
     @Override
     public void resetGame() {
-        // Start ved å nullstille brettet
+        // clears the board by setting all cells to '-'.
         for (int row = 0; row < tetrisBoard.rows(); row++) {
             tetrisBoard.setRow(row, '-');
         }
-        // Nullstill poengsum og annen spilltilstand
         newscore = 0;
-        // Hente en ny falling tetromino og sentrere den på toppen av brettet
         currentTetromino = tetrominoFactory.getNext().shiftedToTopCenterOf(tetrisBoard);
-        
-        // Sett spilltilstanden til ACTIVE_GAME eller WELCOME_SCREEN, avhengig av hvordan du vil håndtere restart
         gameState = GameState.ACTIVE_GAME;
     }
-      
-
-
 
     @Override
     public int getscore() {

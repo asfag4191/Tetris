@@ -1,5 +1,6 @@
 package no.uib.inf101.tetris.view;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import no.uib.inf101.grid.GridCell;
@@ -11,16 +12,19 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * The class extends JPanel and is responsible for drawing the game graphics to
- * the board.
+ * the board. Draws various elements such as the game board, the falling
+ * tetromino, the game over overlay and the score.
  * 
  * Uses ViewableTetrisModel to get information about the game state and the
  * current game board.
  * 
- * It draws the game over overlay if the game is over.
  */
 public class TetrisView extends JPanel {
   private ViewableTetrisModel tetrisModel;
@@ -47,10 +51,10 @@ public class TetrisView extends JPanel {
     super.paintComponent(g);
     Graphics2D g2 = (Graphics2D) g;
 
-    //drawGame(g2);
-    if (tetrisModel.getGameState()==GameState.WELCOME_SCREEN){
+    // drawGame(g2);
+    if (tetrisModel.getGameState() == GameState.WELCOME_SCREEN) {
       drawWelcomeScreen(g2);
-    } else{
+    } else {
       drawGame(g2);
     }
 
@@ -124,28 +128,24 @@ public class TetrisView extends JPanel {
     g2.drawString(text, x, y);
   }
 
-  private void drawReplayText(Graphics2D g2){
-    // Gjenta noen av de samme oppsettene som i drawGameOverOverlay
+  /**
+   * Draws the replay text when the game is over.
+   * 
+   * @param g2
+   */
+  private void drawReplayText(Graphics2D g2) {
     g2.setFont(new Font("Arial", Font.BOLD, 24));
     g2.setColor(Color.PINK);
-    
-    // Definer teksten for replay-instruks
+
     String text = "PRESS ENTER TO PLAY AGAIN";
     FontMetrics fm = g2.getFontMetrics();
-    
-    // Beregn x-posisjonen for å sentrere teksten horisontalt
-    int x = (getWidth() - fm.stringWidth(text)) / 2;
-    
-    // Beregn y-posisjon for game over tekst for å bruke det som basis
-    String gameOverText = "Game Over";
     FontMetrics gameOverFm = g2.getFontMetrics(new Font("Arial", Font.BOLD, 30));
+
     int gameOverY = (getHeight() - gameOverFm.getHeight()) / 2 + gameOverFm.getAscent();
-    
-    // Sette y-posisjonen for replay-teksten til et bestemt stykke under "Game Over"-teksten
-    int spacing = 50; // Avstanden du vil ha mellom "Game Over" og replay-teksten
+    int spacing = 50;
     int y = gameOverY + gameOverFm.getHeight() + spacing;
-    
-    // Tegn strengen
+    int x = (getWidth() - fm.stringWidth(text)) / 2;
+
     g2.drawString(text, x, y);
   }
 
@@ -166,12 +166,26 @@ public class TetrisView extends JPanel {
     g2.drawString(text, x, y);
   }
 
+  /**
+   * Draws the welcome screen when the game is in the welcome state.
+   * 
+   * @param g2 Graphics2D context for drawing the welcome screen.
+   */
+  // Source for use of image; https://www.baeldung.com/java-images
   private void drawWelcomeScreen(Graphics2D g2) {
-    g2.setColor(new Color(128,128,128,128));
-    g2.fillRect(0, 0, getWidth(), getHeight());
+    try {
+      Image backgroundImage = ImageIO
+          .read(new File("/Users/asegrethe/Documents/inf101/Ase.Fagerbakke_sem1-tetris/tetris.png"));
+
+      g2.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);
+
+      g2.setColor(new Color(128, 128, 128, 128));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
     g2.setColor(Color.ORANGE);
-    g2.setFont(new Font("Arial", Font.BOLD, 24));
+    g2.setFont(new Font("Arial", Font.BOLD, 30));
 
     String text = "PRESS SPACE TO PLAY";
     FontMetrics fm = g2.getFontMetrics();
@@ -179,5 +193,5 @@ public class TetrisView extends JPanel {
     int y = (getHeight() - fm.getHeight()) / 2 + fm.getAscent();
 
     g2.drawString(text, x, y);
-}
+  }
 }
