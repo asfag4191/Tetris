@@ -33,7 +33,7 @@ public interface ViewableTetrisModel {
     GameState getGameState();
 
     /**
-     * @return the current score, from removing full rows. 
+     * @return the current score, from removing full rows.
      */
     int getscore();
 

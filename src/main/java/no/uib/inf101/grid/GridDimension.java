@@ -8,4 +8,3 @@ public interface GridDimension {
   /** Number of columns in the grid */
   int cols();
 }
-

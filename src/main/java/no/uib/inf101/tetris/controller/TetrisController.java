@@ -78,7 +78,7 @@ public class TetrisController implements KeyListener {
             if (tetrisModel.getGameState() == GameState.WELCOME_SCREEN) {
                 tetrisModel.startGame();
 
-            } 
+            }
         }
 
         tetrisView.repaint();
@@ -86,6 +86,7 @@ public class TetrisController implements KeyListener {
 
     /**
      * Unused method from the KeyListener interface
+     * 
      * @param e The KeyEvent is triggered when the user releases a key.
      */
     public void keyReleased(KeyEvent e) {
@@ -93,6 +94,7 @@ public class TetrisController implements KeyListener {
 
     /**
      * Unused method from the KeyListener interface
+     * 
      * @param e The KeyEvent is triggered when the user types a key.
      */
     public void keyTyped(KeyEvent e) {
@@ -103,22 +105,23 @@ public class TetrisController implements KeyListener {
      * Delay based on the current game state.
      */
     public void updateTimerDelay() {
-        int delay = tetrisModel.dropTimer(); 
+        int delay = tetrisModel.dropTimer();
         timer.setDelay(delay);
         timer.setInitialDelay(delay);
     }
 
     /**
-     * The method is called every time the timer ticks. It updates the game state and
+     * The method is called every time the timer ticks. It updates the game state
+     * and
      * repaints the view.
      * 
      * @param e The ActionEvent is triggered when the timer ticks.
      */
     public void clockTick(ActionEvent e) {
         if (tetrisModel.getGameState() == GameState.ACTIVE_GAME) {
-            tetrisModel.clockTick(); 
-            tetrisView.repaint(); 
-            updateTimerDelay(); 
+            tetrisModel.clockTick();
+            tetrisView.repaint();
+            updateTimerDelay();
         }
 
     }

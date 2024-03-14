@@ -15,14 +15,14 @@ import no.uib.inf101.tetris.view.TetrisView;
 public class TetrisMain {
 
   /**
-   *The title for the Tetris game window.
+   * The title for the Tetris game window.
    */
   public static final String WINDOW_TITLE = "INF101 Tetris";
 
   /**
-   * The main method to start the game. 
+   * The main method to start the game.
    * 
-   * @param args Command line arguments. 
+   * @param args Command line arguments.
    */
   public static void main(String[] args) {
     TetrisBoard tetrisBoard = new TetrisBoard(15, 10);
@@ -31,7 +31,7 @@ public class TetrisMain {
 
     TetrisModel tetrisModel = new TetrisModel(tetrisBoard, tetrominoFactory);
     TetrisView view = new TetrisView(tetrisModel);
-    TetrisController controller= new TetrisController(tetrisModel, view);
+    TetrisController controller = new TetrisController(tetrisModel, view);
 
     JFrame frame = new JFrame(WINDOW_TITLE);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,8 +43,8 @@ public class TetrisMain {
   }
 
   /**
-   *Static instance for global use.
-   *This factory is used to create random Tetrimino pieces. 
+   * Static instance for global use.
+   * This factory is used to create random Tetrimino pieces.
    */
   static TetrominoFactory tetrominoFactory = new RandomTetrominoFactory();
 

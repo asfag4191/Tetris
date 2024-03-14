@@ -54,8 +54,6 @@ public class TestTetrisModel {
         assertTrue(tetroCells.contains(new GridCell<>(new CellPosition(0, 3), 'I')));
     }
 
-
-
     @Test
     void testMoveReturnsTrueWhenSuccessful() {
         TetrisBoard tetrisBoard = new TetrisBoard(20, 10);
@@ -101,7 +99,7 @@ public class TestTetrisModel {
     @Test
     public void testMoveTetrominoToOccupiedSpace() {
         TetrisBoard board = new TetrisBoard(20, 10);
-        //Set the cells (0,7) to be occupied.
+        // Set the cells (0,7) to be occupied.
         board.set(new CellPosition(0, 7), 'X');
         TetrominoFactory factory = new PatternedTetrominoFactory("I");
         TetrisModel model = new TetrisModel(board, factory);
@@ -181,20 +179,21 @@ public class TestTetrisModel {
         assertTrue(tetroCellsClockTick.contains(new GridCell<>((new CellPosition(1, 6)), 'I')));
     }
 
-@Test
-public void testRotateTetromino() {
-    //create a O and T-tetromino
-    Tetromino tetromino1= Tetromino.newTetromino('T');
-    Tetromino tetromino2= Tetromino.newTetromino('O');
+    @Test
+    public void testRotateTetromino() {
+        // create a O and T-tetromino
+        Tetromino tetromino1 = Tetromino.newTetromino('T');
+        Tetromino tetromino2 = Tetromino.newTetromino('O');
 
-    //Chech if its changed when rotated
-    assertNotEquals(tetromino1, tetromino1.rotatedTetromino());
+        // Chech if its changed when rotated
+        assertNotEquals(tetromino1, tetromino1.rotatedTetromino());
 
-    //chech if it changes when rotated 4 times
-    assertEquals(tetromino1, tetromino1.rotatedTetromino().rotatedTetromino().rotatedTetromino().rotatedTetromino());
+        // chech if it changes when rotated 4 times
+        assertEquals(tetromino1,
+                tetromino1.rotatedTetromino().rotatedTetromino().rotatedTetromino().rotatedTetromino());
 
-   // Chech if O-tetromino changes when rotated
-   assertEquals(tetromino2, tetromino2.rotatedTetromino());
-}
+        // Chech if O-tetromino changes when rotated
+        assertEquals(tetromino2, tetromino2.rotatedTetromino());
+    }
 
 }

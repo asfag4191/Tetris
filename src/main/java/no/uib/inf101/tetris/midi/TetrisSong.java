@@ -31,8 +31,7 @@ public class TetrisSong implements Runnable {
             }
             this.sequencer.open();
             this.sequencer.start();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             this.midiError("" + e);
         }
     }
@@ -44,8 +43,7 @@ public class TetrisSong implements Runnable {
             }
             this.sequencer.stop();
             this.sequencer.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             this.midiError("" + e);
         }
         this.sequencer = null;
@@ -57,20 +55,18 @@ public class TetrisSong implements Runnable {
                 return;
             }
             this.sequencer.stop();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             this.midiError("" + e);
         }
     }
-    
+
     public void doUnpauseMidiSounds() {
         try {
             if (this.sequencer == null) {
                 return;
             }
             this.sequencer.start();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             this.midiError("" + e);
         }
     }

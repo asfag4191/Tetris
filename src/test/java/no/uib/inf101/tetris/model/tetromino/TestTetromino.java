@@ -131,21 +131,21 @@ public class TestTetromino {
 
   @Test
   public void testRotationFallingTetromino1() {
-      // Create a new tetromino and rotate it
-      Tetromino tetromino = Tetromino.newTetromino('T');
-      tetromino = tetromino.rotatedTetromino();
+    // Create a new tetromino and rotate it
+    Tetromino tetromino = Tetromino.newTetromino('T');
+    tetromino = tetromino.rotatedTetromino();
 
-      // Collect which objects are iterated through
-      List<GridCell<Character>> objs = new ArrayList<>();
-      for (GridCell<Character> gc : tetromino) {
-          objs.add(gc);
-      }
+    // Collect which objects are iterated through
+    List<GridCell<Character>> objs = new ArrayList<>();
+    for (GridCell<Character> gc : tetromino) {
+      objs.add(gc);
+    }
 
-      // Assert that the correct cells are contained in the iteration
-      assertEquals(4, objs.size());
-      assertTrue(objs.contains(new GridCell<>((new CellPosition(0, 1)), 'T')));
-      assertTrue(objs.contains(new GridCell<>((new CellPosition(1, 1)), 'T')));
-      assertTrue(objs.contains(new GridCell<>((new CellPosition(1, 0)), 'T')));
-      assertTrue(objs.contains(new GridCell<>((new CellPosition(2, 1)), 'T')));
+    // Assert that the correct cells are contained in the iteration
+    assertEquals(4, objs.size());
+    assertTrue(objs.contains(new GridCell<>((new CellPosition(0, 1)), 'T')));
+    assertTrue(objs.contains(new GridCell<>((new CellPosition(1, 1)), 'T')));
+    assertTrue(objs.contains(new GridCell<>((new CellPosition(1, 0)), 'T')));
+    assertTrue(objs.contains(new GridCell<>((new CellPosition(2, 1)), 'T')));
   }
 }

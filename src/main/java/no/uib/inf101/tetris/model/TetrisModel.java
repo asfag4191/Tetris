@@ -60,6 +60,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
      * @param tetromino The tetromino to check.
      * @return True if the move is legal, false otherwise.
      */
+    // got helt from Gedvyde from my class, and then modified it to fit my code.
     private boolean legalMove(Tetromino tetromino) {
         List<GridCell<Character>> cells = new ArrayList<>();
         for (GridCell<Character> cell : tetromino) {
@@ -113,7 +114,6 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         return true;
     }
 
-    
     @Override
     public void dropTetromino() {
         while (moveTetromino(1, 0)) {
